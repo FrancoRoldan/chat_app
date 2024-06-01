@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class CustomInput extends StatelessWidget {
   const CustomInput(
       {super.key,
+      required this.textController,
       required this.hintText,
       required this.icon,
       this.obscure = false,
@@ -12,6 +13,7 @@ class CustomInput extends StatelessWidget {
   final IconData icon;
   final bool obscure;
   final TextInputType inputType;
+  final TextEditingController textController;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -27,6 +29,7 @@ class CustomInput extends StatelessWidget {
                 blurRadius: 5)
           ]),
       child: TextField(
+        controller: textController,
         autocorrect: false,
         keyboardType: inputType,
         obscureText: obscure,

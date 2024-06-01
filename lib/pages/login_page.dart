@@ -1,4 +1,6 @@
 import 'package:chat_app/widgets/custom_input.dart';
+import 'package:chat_app/widgets/labels.dart';
+import 'package:chat_app/widgets/logo.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatelessWidget {
@@ -12,42 +14,14 @@ class LoginPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const _Logo(),
+            const Logo(),
             _Form(),
-            _Labels(),
+            const Labels(),
             const Text(
               'Términos y condiciones de uso',
               style: TextStyle(fontWeight: FontWeight.w200),
             )
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class _Logo extends StatelessWidget {
-  const _Logo();
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        margin: const EdgeInsets.only(top: 50),
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 170),
-          child: const Column(
-            children: [
-              Image(image: AssetImage('assets/tag-logo.png')),
-              SizedBox(
-                height: 20,
-              ),
-              Text(
-                'Messenger',
-                style: TextStyle(fontSize: 30),
-              )
-            ],
-          ),
         ),
       ),
     );
@@ -60,6 +34,9 @@ class _Form extends StatefulWidget {
 }
 
 class __FormState extends State<_Form> {
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -67,11 +44,13 @@ class __FormState extends State<_Form> {
       padding: const EdgeInsets.symmetric(horizontal: 50),
       child: Column(
         children: [
-          const CustomInput(
+          CustomInput(
+              textController: emailController,
               hintText: 'Email',
               icon: Icons.email_outlined,
               inputType: TextInputType.emailAddress),
-          const CustomInput(
+          CustomInput(
+            textController: passwordController,
             hintText: 'Password',
             icon: Icons.lock_outline,
             inputType: TextInputType.emailAddress,
@@ -80,31 +59,6 @@ class __FormState extends State<_Form> {
           ElevatedButton(onPressed: () {}, child: const Text('Ingresar'))
         ],
       ),
-    );
-  }
-}
-
-class _Labels extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const Text(
-          '¿No tienes una cuenta?',
-          style: TextStyle(
-              color: Colors.black54, fontSize: 15, fontWeight: FontWeight.w300),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        Text(
-          'Crea una ahora!',
-          style: TextStyle(
-              color: Colors.blue[300],
-              fontSize: 18,
-              fontWeight: FontWeight.bold),
-        ),
-      ],
     );
   }
 }
