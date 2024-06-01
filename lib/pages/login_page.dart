@@ -15,17 +15,20 @@ class LoginPage extends StatelessWidget {
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxHeight: 700, maxWidth: 500),
             child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Logo(),
-                  _Form(),
-                  const Labels(),
-                  const Text(
-                    'Términos y condiciones de uso',
-                    style: TextStyle(fontWeight: FontWeight.w200),
-                  )
-                ],
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height * 0.95,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Logo(),
+                    _Form(),
+                    const Labels(),
+                    const Text(
+                      'Términos y condiciones de uso',
+                      style: TextStyle(fontWeight: FontWeight.w200),
+                    )
+                  ],
+                ),
               ),
             ),
           ),
