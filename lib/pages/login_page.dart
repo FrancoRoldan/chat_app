@@ -11,17 +11,24 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xffF2F2F2),
       body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Logo(),
-            _Form(),
-            const Labels(),
-            const Text(
-              'Términos y condiciones de uso',
-              style: TextStyle(fontWeight: FontWeight.w200),
-            )
-          ],
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxHeight: 700, maxWidth: 500),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Logo(),
+                  _Form(),
+                  const Labels(),
+                  const Text(
+                    'Términos y condiciones de uso',
+                    style: TextStyle(fontWeight: FontWeight.w200),
+                  )
+                ],
+              ),
+            ),
+          ),
         ),
       ),
     );
@@ -56,7 +63,12 @@ class __FormState extends State<_Form> {
             inputType: TextInputType.emailAddress,
             obscure: true,
           ),
-          ElevatedButton(onPressed: () {}, child: const Text('Ingresar'))
+          ElevatedButton(
+              onPressed: () {},
+              child: const SizedBox(
+                  width: double.infinity,
+                  height: 50,
+                  child: Center(child: Text('Ingresar'))))
         ],
       ),
     );

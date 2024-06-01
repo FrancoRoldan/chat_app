@@ -14,10 +14,11 @@ class CustomInput extends StatelessWidget {
   final bool obscure;
   final TextInputType inputType;
   final TextEditingController textController;
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(top: 5, left: 5, bottom: 5, right: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       margin: const EdgeInsets.only(bottom: 20),
       decoration: BoxDecoration(
           color: Colors.white,
@@ -34,7 +35,7 @@ class CustomInput extends StatelessWidget {
         keyboardType: inputType,
         obscureText: obscure,
         decoration: InputDecoration(
-            prefix: Icon(icon),
+            prefixIcon: Icon(icon, color: Colors.grey),
             focusedBorder: InputBorder.none,
             border: InputBorder.none,
             hintText: hintText),
