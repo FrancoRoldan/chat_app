@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class Logo extends StatelessWidget {
-  const Logo({super.key});
-
+  const Logo({super.key, required this.tittle});
+  final String tittle;
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -10,15 +10,15 @@ class Logo extends StatelessWidget {
         margin: const EdgeInsets.only(top: 50),
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 170),
-          child: const Column(
+          child: Column(
             children: [
-              Image(image: AssetImage('assets/tag-logo.png')),
-              SizedBox(
+              const Image(image: AssetImage('assets/tag-logo.png')),
+              const SizedBox(
                 height: 20,
               ),
               Text(
-                'Messenger',
-                style: TextStyle(fontSize: 30),
+                tittle,
+                style: const TextStyle(fontSize: 30),
               )
             ],
           ),
