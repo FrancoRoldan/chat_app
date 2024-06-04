@@ -10,20 +10,11 @@ class ChatPage extends StatefulWidget {
   State<ChatPage> createState() => _ChatPageState();
 }
 
-class _ChatPageState extends State<ChatPage> {
+class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
   final TextEditingController _mensajeController = TextEditingController();
   final FocusNode _focus = FocusNode();
   bool _estaEscribiendo = false;
-  final List<ChatMessage> _messagges = [
-    const ChatMessage(text: 'Hola', uid: '123'),
-    const ChatMessage(text: 'Hola', uid: '1232'),
-    const ChatMessage(text: 'Como', uid: '123'),
-    const ChatMessage(text: 'Como', uid: '1232'),
-    const ChatMessage(text: 'Estas', uid: '123'),
-    const ChatMessage(text: 'Estas', uid: '1232'),
-    const ChatMessage(text: '?', uid: '123'),
-    const ChatMessage(text: '?', uid: '1232'),
-  ];
+  final List<ChatMessage> _messagges = [];
 
   @override
   Widget build(BuildContext context) {
@@ -118,16 +109,22 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   _handleSumbit(String text) {
-    print(text);
-    _mensajeController.clear();
     _focus.requestFocus();
+    text = text.trim();
+    if (text.trim().isEmpty) return;
 
-    final _message = ChatMessage(
+    _mensajeController.clear();
+
+    final message = ChatMessage(
+      animationController: AnimationController(
+          vsync: this, duration: const Duration(milliseconds: 400)),
       uid: '123',
       text: text,
     );
 
-    _messagges.insert(0, _message);
+    _messagges.insert(0, message);
+
+    message.animationController.forward();
 
     setState(() {
       _estaEscribiendo = false;
