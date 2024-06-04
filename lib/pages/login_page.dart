@@ -1,7 +1,9 @@
+import 'package:chat_app/services/auth_services.dart';
 import 'package:chat_app/widgets/custom_input.dart';
 import 'package:chat_app/widgets/labels.dart';
 import 'package:chat_app/widgets/logo.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -71,7 +73,16 @@ class __FormState extends State<_Form> {
             obscure: true,
           ),
           ElevatedButton(
-              onPressed: () {},
+              onPressed: () async {
+                emailController.text;
+                passwordController.text;
+
+                final authService =
+                    Provider.of<AuthServices>(context, listen: false);
+
+                await authService.login(
+                    emailController.text, passwordController.text);
+              },
               child: const SizedBox(
                   width: double.infinity,
                   height: 50,
