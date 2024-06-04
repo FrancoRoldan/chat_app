@@ -12,6 +12,7 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState extends State<ChatPage> {
   final TextEditingController _mensajeController = TextEditingController();
   final FocusNode _focus = FocusNode();
+  bool _estaEscribiendo = false;
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +68,13 @@ class _ChatPageState extends State<ChatPage> {
               controller: _mensajeController,
               onSubmitted: _handleSumbit,
               onChanged: (String text) {
-                //TODO: cuando hay un valor para postear
+                setState(() {
+                  if (text.trim().isNotEmpty) {
+                    _estaEscribiendo = true;
+                  } else {
+                    _estaEscribiendo = false;
+                  }
+                });
               },
               decoration:
                   const InputDecoration.collapsed(hintText: 'Enviar mensaje'),
@@ -77,12 +84,17 @@ class _ChatPageState extends State<ChatPage> {
                 margin: const EdgeInsets.symmetric(horizontal: 4),
                 child: defaultTargetPlatform == TargetPlatform.iOS
                     ? CupertinoButton(
-                        onPressed: () {}, child: const Text('Enviar'))
+                        onPressed: _estaEscribiendo
+                            ? () => _handleSumbit(_mensajeController.text)
+                            : null,
+                        child: const Text('Enviar'))
                     : Container(
                         margin: const EdgeInsets.symmetric(horizontal: 4),
                         child: IconButton(
                           color: Colors.indigo,
-                          onPressed: () {},
+                          onPressed: _estaEscribiendo
+                              ? () => _handleSumbit(_mensajeController.text)
+                              : null,
                           icon: const Icon(Icons.send),
                         ),
                       ))
@@ -96,5 +108,8 @@ class _ChatPageState extends State<ChatPage> {
     print(text);
     _mensajeController.clear();
     _focus.requestFocus();
+    setState(() {
+      _estaEscribiendo = false;
+    });
   }
 }
