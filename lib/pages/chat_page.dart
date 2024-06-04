@@ -1,3 +1,4 @@
+import 'package:chat_app/widgets/chat_message.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,16 @@ class _ChatPageState extends State<ChatPage> {
   final TextEditingController _mensajeController = TextEditingController();
   final FocusNode _focus = FocusNode();
   bool _estaEscribiendo = false;
+  final List<ChatMessage> _messagges = [
+    const ChatMessage(text: 'Hola', uid: '123'),
+    const ChatMessage(text: 'Hola', uid: '1232'),
+    const ChatMessage(text: 'Como', uid: '123'),
+    const ChatMessage(text: 'Como', uid: '1232'),
+    const ChatMessage(text: 'Estas', uid: '123'),
+    const ChatMessage(text: 'Estas', uid: '1232'),
+    const ChatMessage(text: '?', uid: '123'),
+    const ChatMessage(text: '?', uid: '1232'),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +55,9 @@ class _ChatPageState extends State<ChatPage> {
         children: [
           Flexible(
               child: ListView.builder(
-                  reverse: true, itemBuilder: (_, i) => Text(i.toString()))),
+                  itemCount: _messagges.length,
+                  reverse: true,
+                  itemBuilder: (_, i) => _messagges[i])),
           const Divider(
             height: 1,
           ),
@@ -108,6 +121,14 @@ class _ChatPageState extends State<ChatPage> {
     print(text);
     _mensajeController.clear();
     _focus.requestFocus();
+
+    final _message = ChatMessage(
+      uid: '123',
+      text: text,
+    );
+
+    _messagges.insert(0, _message);
+
     setState(() {
       _estaEscribiendo = false;
     });
