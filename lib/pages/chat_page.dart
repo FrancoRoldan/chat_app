@@ -1,7 +1,17 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-class ChatPage extends StatelessWidget {
+class ChatPage extends StatefulWidget {
   const ChatPage({super.key});
+
+  @override
+  State<ChatPage> createState() => _ChatPageState();
+}
+
+class _ChatPageState extends State<ChatPage> {
+  final TextEditingController _mensajeController = TextEditingController();
+  final FocusNode _focus = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -39,10 +49,52 @@ class ChatPage extends StatelessWidget {
           ),
           Container(
             color: Colors.white,
-            height: 100,
+            child: _inputChat(),
           )
         ],
       ),
     );
+  }
+
+  Widget _inputChat() {
+    return SafeArea(
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 8),
+        child: Row(
+          children: [
+            Flexible(
+                child: TextField(
+              controller: _mensajeController,
+              onSubmitted: _handleSumbit,
+              onChanged: (String text) {
+                //TODO: cuando hay un valor para postear
+              },
+              decoration:
+                  const InputDecoration.collapsed(hintText: 'Enviar mensaje'),
+              focusNode: _focus,
+            )),
+            Container(
+                margin: const EdgeInsets.symmetric(horizontal: 4),
+                child: defaultTargetPlatform == TargetPlatform.iOS
+                    ? CupertinoButton(
+                        onPressed: () {}, child: const Text('Enviar'))
+                    : Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 4),
+                        child: IconButton(
+                          color: Colors.indigo,
+                          onPressed: () {},
+                          icon: const Icon(Icons.send),
+                        ),
+                      ))
+          ],
+        ),
+      ),
+    );
+  }
+
+  _handleSumbit(String text) {
+    print(text);
+    _mensajeController.clear();
+    _focus.requestFocus();
   }
 }
