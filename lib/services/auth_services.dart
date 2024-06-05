@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class AuthServices extends ChangeNotifier {
-  Usuario? usuario;
+  Usuario? _usuario;
   bool _autenticando = false;
   bool _registrando = false;
 
@@ -16,6 +16,7 @@ class AuthServices extends ChangeNotifier {
 
   bool get autenticando => _autenticando;
   bool get registrando => _registrando;
+  Usuario? get usuario => _usuario;
 
   set autenticando(bool valor) {
     _autenticando = valor;
@@ -50,7 +51,7 @@ class AuthServices extends ChangeNotifier {
 
     if (resp.statusCode == 200) {
       final loginResponse = loginResponseFromJson(resp.body);
-      usuario = loginResponse.usuario;
+      _usuario = loginResponse.usuario;
 
       await _guardarToken(loginResponse.token);
 
@@ -72,7 +73,7 @@ class AuthServices extends ChangeNotifier {
 
     if (resp.statusCode == 200) {
       final loginResponse = loginResponseFromJson(resp.body);
-      usuario = loginResponse.usuario;
+      _usuario = loginResponse.usuario;
 
       await _guardarToken(loginResponse.token);
 
@@ -92,7 +93,7 @@ class AuthServices extends ChangeNotifier {
 
     if (resp.statusCode == 200) {
       final loginResponse = loginResponseFromJson(resp.body);
-      usuario = loginResponse.usuario;
+      _usuario = loginResponse.usuario;
 
       await _guardarToken(loginResponse.token);
 
