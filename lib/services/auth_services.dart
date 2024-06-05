@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:chat_app/global/enviroment.dart';
 import 'package:chat_app/models/login_response.dart';
 import 'package:chat_app/models/usuarios.dart';
@@ -9,12 +10,24 @@ import 'package:http/http.dart' as http;
 class AuthServices extends ChangeNotifier {
   Usuario? usuario;
   bool _autenticando = false;
+  final _storage = const FlutterSecureStorage();
 
   bool get autenticando => _autenticando;
 
   set autenticando(bool valor) {
     _autenticando = valor;
     notifyListeners();
+  }
+
+  static Future<String> getToken() async {
+    const storage = FlutterSecureStorage();
+    final token = await storage.read(key: 'token');
+    return token ?? '';
+  }
+
+  static Future<void> deleteToken() async {
+    const storage = FlutterSecureStorage();
+    await storage.delete(key: 'token');
   }
 
   Future<bool> login(String email, String password) async {
@@ -30,9 +43,20 @@ class AuthServices extends ChangeNotifier {
     if (resp.statusCode == 200) {
       final loginResponse = loginResponseFromJson(resp.body);
       usuario = loginResponse.usuario;
+
+      await _guardarToken(loginResponse.token);
+
       return true;
     } else {
       return false;
     }
+  }
+
+  Future _guardarToken(String token) async {
+    return await _storage.write(key: 'token', value: token);
+  }
+
+  Future _logout() async {
+    return await _storage.delete(key: 'token');
   }
 }

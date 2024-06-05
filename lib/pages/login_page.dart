@@ -85,6 +85,8 @@ class __FormState extends State<_Form> {
                           passwordController.text.trim());
 
                       if (loginOk) {
+                        // ignore: use_build_context_synchronously
+                        Navigator.pushReplacementNamed(context, 'usuarios');
                       } else {
                         if (mounted) {
                           // ignore: use_build_context_synchronously
