@@ -55,6 +55,8 @@ class __FormState extends State<_Form> {
 
   @override
   Widget build(BuildContext context) {
+    final authService = Provider.of<AuthServices>(context);
+
     return Container(
       margin: const EdgeInsets.only(top: 40),
       padding: const EdgeInsets.symmetric(horizontal: 50),
@@ -73,16 +75,13 @@ class __FormState extends State<_Form> {
             obscure: true,
           ),
           ElevatedButton(
-              onPressed: () async {
-                emailController.text;
-                passwordController.text;
-
-                final authService =
-                    Provider.of<AuthServices>(context, listen: false);
-
-                await authService.login(
-                    emailController.text, passwordController.text);
-              },
+              onPressed: authService.autenticando
+                  ? null
+                  : () async {
+                      FocusScope.of(context).unfocus();
+                      await authService.login(emailController.text.trim(),
+                          passwordController.text.trim());
+                    },
               child: const SizedBox(
                   width: double.infinity,
                   height: 50,

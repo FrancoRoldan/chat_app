@@ -8,8 +8,18 @@ import 'package:http/http.dart' as http;
 
 class AuthServices extends ChangeNotifier {
   Usuario? usuario;
+  bool _autenticando = false;
+
+  bool get autenticando => _autenticando;
+
+  set autenticando(bool valor) {
+    _autenticando = valor;
+    notifyListeners();
+  }
 
   Future login(String email, String password) async {
+    autenticando = true;
+
     final data = {'email': email, 'password': password};
 
     final resp = await http.post(Uri.parse('${Enviroment.apiUrl}/login'),
@@ -19,5 +29,7 @@ class AuthServices extends ChangeNotifier {
       final loginResponse = loginResponseFromJson(resp.body);
       usuario = loginResponse.usuario;
     }
+
+    autenticando = false;
   }
 }
