@@ -1,3 +1,4 @@
+import 'package:chat_app/global/enviroment.dart';
 import 'package:flutter/material.dart';
 
 import 'package:socket_io_client/socket_io_client.dart' as io;
@@ -13,14 +14,11 @@ class SocketService with ChangeNotifier {
   io.Socket get socket => _socket;
   Function get emit => _socket.emit;
 
-  SocketService() {
-    _initConfig();
-  }
-
-  void _initConfig() {
-    _socket = io.io('http://localhost:3000/', {
+  void connect() {
+    _socket = io.io(Enviroment.socketUrl, {
       'transports': ['websocket'],
-      'autoConnect': true
+      'autoConnect': true,
+      //'forceNew': true
     });
 
     _socket.on('connect', (_) {
@@ -32,5 +30,9 @@ class SocketService with ChangeNotifier {
       _serverStatus = ServerStatus.offline;
       notifyListeners();
     });
+  }
+
+  void disconnect() {
+    _socket.disconnect();
   }
 }
