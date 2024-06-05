@@ -10,12 +10,20 @@ import 'package:http/http.dart' as http;
 class AuthServices extends ChangeNotifier {
   Usuario? usuario;
   bool _autenticando = false;
+  bool _registrando = false;
+
   final _storage = const FlutterSecureStorage();
 
   bool get autenticando => _autenticando;
+  bool get registrando => _registrando;
 
   set autenticando(bool valor) {
     _autenticando = valor;
+    notifyListeners();
+  }
+
+  set registrando(bool valor) {
+    _registrando = valor;
     notifyListeners();
   }
 
@@ -36,6 +44,28 @@ class AuthServices extends ChangeNotifier {
     final data = {'email': email, 'password': password};
 
     final resp = await http.post(Uri.parse('${Enviroment.apiUrl}/login'),
+        body: jsonEncode(data), headers: {'Content-Type': 'application/json'});
+
+    autenticando = false;
+
+    if (resp.statusCode == 200) {
+      final loginResponse = loginResponseFromJson(resp.body);
+      usuario = loginResponse.usuario;
+
+      await _guardarToken(loginResponse.token);
+
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> register(String email, String nombre, String password) async {
+    autenticando = true;
+
+    final data = {'email': email, 'nombre': nombre, 'password': password};
+
+    final resp = await http.post(Uri.parse('${Enviroment.apiUrl}/login/new'),
         body: jsonEncode(data), headers: {'Content-Type': 'application/json'});
 
     autenticando = false;
