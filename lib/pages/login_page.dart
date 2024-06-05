@@ -1,3 +1,4 @@
+import 'package:chat_app/helpers/mostrar_alerta.dart';
 import 'package:chat_app/services/auth_services.dart';
 import 'package:chat_app/widgets/custom_input.dart';
 import 'package:chat_app/widgets/labels.dart';
@@ -79,8 +80,18 @@ class __FormState extends State<_Form> {
                   ? null
                   : () async {
                       FocusScope.of(context).unfocus();
-                      await authService.login(emailController.text.trim(),
+                      final loginOk = await authService.login(
+                          emailController.text.trim(),
                           passwordController.text.trim());
+
+                      if (loginOk) {
+                      } else {
+                        if (mounted) {
+                          // ignore: use_build_context_synchronously
+                          mostrarAlerta(context, 'login incorrecto',
+                              'revisar sus credenciales.');
+                        }
+                      }
                     },
               child: const SizedBox(
                   width: double.infinity,
