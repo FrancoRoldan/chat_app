@@ -47,7 +47,9 @@ class _UsuariosPageState extends State<UsuariosPage> {
           actions: <Widget>[
             Container(
               margin: const EdgeInsets.only(right: 10),
-              child: Icon(Icons.check_circle, color: Colors.blue[400]),
+              child: socketService.serverStatus == ServerStatus.online
+                  ? Icon(Icons.check_circle, color: Colors.blue[400])
+                  : const Icon(Icons.offline_bolt, color: Colors.red),
               // child: Icon( Icons.offline_bolt, color: Colors.red ),
             )
           ],
@@ -75,7 +77,9 @@ class _UsuariosPageState extends State<UsuariosPage> {
   }
 
   ListTile _usuarioListTile(Usuario usuario) {
+    final socketService = Provider.of<SocketService>(context, listen: false);
     return ListTile(
+      onTap: () => {print(socketService.serverStatus)},
       title: Text(usuario.nombre),
       subtitle: Text(usuario.email),
       leading: CircleAvatar(

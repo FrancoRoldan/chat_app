@@ -18,7 +18,7 @@ class SocketService with ChangeNotifier {
     _socket = io.io(Enviroment.socketUrl, {
       'transports': ['websocket'],
       'autoConnect': true,
-      //'forceNew': true
+      'forceNew': true
     });
 
     _socket.on('connect', (_) {
@@ -30,6 +30,8 @@ class SocketService with ChangeNotifier {
       _serverStatus = ServerStatus.offline;
       notifyListeners();
     });
+
+    //emit.call('connect');
   }
 
   void disconnect() {
