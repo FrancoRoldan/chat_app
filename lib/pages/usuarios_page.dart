@@ -77,9 +77,8 @@ class _UsuariosPageState extends State<UsuariosPage> {
   }
 
   ListTile _usuarioListTile(Usuario usuario) {
-    final socketService = Provider.of<SocketService>(context, listen: false);
     return ListTile(
-      onTap: () => {print(socketService.serverStatus)},
+      onTap: () => {},
       title: Text(usuario.nombre),
       subtitle: Text(usuario.email),
       leading: CircleAvatar(
