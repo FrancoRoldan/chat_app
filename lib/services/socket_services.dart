@@ -18,12 +18,12 @@ class SocketService with ChangeNotifier {
   void connect() async {
     final token = await AuthServices.getToken();
 
-    _socket = io.io(Enviroment.socketUrl, {
-      'transports': ['websocket'],
-      'autoConnect': true,
-      'forceNew': true,
-      'extraHeaders': {'x-token': token}
-    });
+    _socket = io.io(
+        '${Enviroment.socketUrl}?token=$token',
+        io.OptionBuilder()
+            .setTransports(['websocket']) // Use WebSocket transport
+            .enableForceNew()
+            .build());
 
     _socket.on('connect', (_) {
       _serverStatus = ServerStatus.online;
