@@ -1,5 +1,5 @@
 import 'package:chat_app/global/enviroment.dart';
-import 'package:chat_app/services/auth_services.dart';
+import 'package:chat_app/services/storage_services.dart';
 import 'package:flutter/material.dart';
 
 import 'package:socket_io_client/socket_io_client.dart' as io;
@@ -16,7 +16,7 @@ class SocketService with ChangeNotifier {
   Function get emit => _socket.emit;
 
   void connect() async {
-    final token = await AuthServices.getToken();
+    final token = await StorageService.getToken();
 
     _socket = io.io(
         '${Enviroment.socketUrl}?token=$token',

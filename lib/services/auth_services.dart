@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:chat_app/services/storage_services.dart';
 import 'package:chat_app/global/enviroment.dart';
 import 'package:chat_app/models/login_response.dart';
 import 'package:chat_app/models/usuarios.dart';
@@ -12,7 +12,7 @@ class AuthServices extends ChangeNotifier {
   bool _autenticando = false;
   bool _registrando = false;
 
-  final _storage = const FlutterSecureStorage();
+  final StorageService _storage = StorageService();
 
   bool get autenticando => _autenticando;
   bool get registrando => _registrando;
@@ -26,17 +26,6 @@ class AuthServices extends ChangeNotifier {
   set registrando(bool valor) {
     _registrando = valor;
     notifyListeners();
-  }
-
-  static Future<String> getToken() async {
-    const storage = FlutterSecureStorage();
-    final token = await storage.read(key: 'token');
-    return token ?? '';
-  }
-
-  static Future<void> deleteToken() async {
-    const storage = FlutterSecureStorage();
-    await storage.delete(key: 'token');
   }
 
   Future<bool> login(String email, String password) async {
@@ -84,10 +73,10 @@ class AuthServices extends ChangeNotifier {
   }
 
   Future<bool> isLoggedIn() async {
-    final token = await _storage.read(key: 'token');
+    final token = await _storage.getData(StorageService.sharedPrefTokenData);
 
     final resp = await http.get(Uri.parse('${Enviroment.apiUrl}/login/renew'),
-        headers: {'Content-Type': 'application/json', 'x-token': token ?? ''});
+        headers: {'Content-Type': 'application/json', 'x-token': token});
 
     autenticando = false;
 
@@ -105,10 +94,10 @@ class AuthServices extends ChangeNotifier {
   }
 
   Future _guardarToken(String token) async {
-    return await _storage.write(key: 'token', value: token);
+    return await _storage.cacheData(token, StorageService.sharedPrefTokenData);
   }
 
   Future _logout() async {
-    return await _storage.delete(key: 'token');
+    return await _storage.removeCacheData(StorageService.sharedPrefTokenData);
   }
 }

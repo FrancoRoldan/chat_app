@@ -2,6 +2,7 @@ import 'package:chat_app/models/usuarios.dart';
 import 'package:chat_app/services/auth_services.dart';
 import 'package:chat_app/services/chat_service.dart';
 import 'package:chat_app/services/socket_services.dart';
+import 'package:chat_app/services/storage_services.dart';
 import 'package:chat_app/services/usuarios_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -40,7 +41,7 @@ class _UsuariosPageState extends State<UsuariosPage> {
           leading: IconButton(
             icon: const Icon(Icons.exit_to_app, color: Colors.black87),
             onPressed: () async {
-              await AuthServices.deleteToken();
+              await StorageService.deleteToken();
               socketService.disconnect();
               // ignore: use_build_context_synchronously
               Navigator.pushReplacementNamed(context, 'login');
