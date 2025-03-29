@@ -1,6 +1,9 @@
 # chat_app
 
-A new Flutter project.
+A flutter project to test sockets communication.
+
+## Prerequisites
+ensure the backend is running `https://github.com/FrancoRoldan/Flutter-chat-backend`
 
 ## Getting Started
 
